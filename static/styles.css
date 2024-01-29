@@ -1,0 +1,33 @@
+body {
+    background-color: gray;
+    color: white;
+    position: relative;
+}
+
+h1, h2, p {
+    text-align: left;
+    padding: 20px;
+}
+
+.button-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+a.button {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+a.change-password-button {
+    margin-left: 10px; /* Updated to margin-left for the Change Password button */
+}
+
+a.button:hover {
+    background-color: red;
+}
