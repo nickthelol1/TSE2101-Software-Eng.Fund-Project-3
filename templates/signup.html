@@ -79,12 +79,16 @@
 <body>
     <h1>Welcometo Gym ABC!!!</h1>
     <h2>Sign Up</h2>
-    <form method="post" action="{{url_for('signup')}}">
-        <label for="username">Username:</label>
-        <input type="text" id="username"name="username" required><br>
+    <form method="post" action="{{ url_for('signup') }}">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
         <label for="password">Password:</label>
-        <input type="password"id = "password"name="password"required><br>
-        <input type="submit"value="Sign Up">
+        <input type="password" id="password" name="password" required><br>
+        <label for="unit_number">Unit Number:</label>
+        <input type="text" id="unit_number" name="unit_number" required><br>
+        <input type="submit" value="Sign Up">
     </form>
     <p>Already have an account?<a href="{{url_for('login')}}">Login Here</a></p>
    

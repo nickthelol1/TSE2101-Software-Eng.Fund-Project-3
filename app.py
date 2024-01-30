@@ -10,8 +10,11 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
+    unit_number = db.Column(db.String(20), nullable=False)
+
 
 # ... (rest of your code)z
 
@@ -25,30 +28,35 @@ def index():
 def login():
     message = ''
     if request.method == 'POST':
-        username = request.form['username']
+        name = request.form['name']
         password = request.form['password']
-        user = User.query.filter_by(username=username, password=password).first()
+
+        # Check if the user with the given name and password exists
+        user = User.query.filter_by(name=name, password=password).first()
+
         if user:
-            session['username'] = username
+            session['username'] = name
             return redirect(url_for('index'))
         else:
-            message = 'Incorrect username or password'
+            message = 'Incorrect name or password'
 
     return render_template('login.html', message=message)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        username = request.form['username']
+        name = request.form['name']
+        email = request.form['email']
         password = request.form['password']
+        unit_number = request.form['unit_number']
 
-        # Check if the username already exists
-        existing_user = User.query.filter_by(username=username).first()
+        # Check if the email already exists
+        existing_user = User.query.filter_by(email=email).first()
         if existing_user:
-            return render_template('signup.html', message='Username already exists. Please choose another username.')
+            return render_template('signup.html', message='Email already exists. Please use another email address.')
 
-        # Create a new user if the username doesn't exist
-        new_user = User(username=username, password=password)
+        # Create a new user if the email doesn't exist
+        new_user = User(name=name, email=email, password=password, unit_number=unit_number)
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
