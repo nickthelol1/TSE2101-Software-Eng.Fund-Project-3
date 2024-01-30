@@ -79,18 +79,21 @@ def change_password():
         old_password = request.form['old_password']
         new_password = request.form['new_password']
 
-        user = User.query.filter_by(username=username, password=old_password).first()
+        # Retrieve the user from the database
+        user = User.query.filter_by(name=username, password=old_password).first()
+
         if user:
-            if old_password == new_password:
-                message = 'New password must be different from the old password.'
-            else:
-                user.password = new_password
-                db.session.commit()
-                message = 'Password changed successfully!'
+            # Update the password
+            user.password = new_password
+
+            # Commit changes to the database
+            db.session.commit()
+            message = 'Password changed successfully!'
         else:
-            message = 'Incorrect old password'
+            message = 'Failed to change password, please try again.'
 
     return render_template('change_password.html', message=message)
+
 
 if __name__ == '__main__':
     with app.app_context():
