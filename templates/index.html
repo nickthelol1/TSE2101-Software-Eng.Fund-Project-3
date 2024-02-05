@@ -10,10 +10,29 @@
     <h1>Menu</h1>
     <h2>Welcome, {{ username }}!</h2>
     <h2>How to use our system?</h2>
+    <div class="container">
+        <div class="box">
+            <img src="/static/payment.jpg" alt="Image 1">
+            <h3>Step 1: Make a Payment</h3>
+            <p>Make a payment for your activity fees.</p>
+            <button class="go-button">Go</button>
+        </div>
+        <div class="box">
+            <img src="/static/Selection.jpeg" alt="Image 2">
+            <h3>Step 2: Selection and Slot</h3>
+            <p>Select activity either Gym or Swimming Pool.After that, Select a timeslots for your activity</p>
+            <button class="go-button">Go</button>
+        </div>
+        <div class="box">
+            <img src="/static/announcement.jpg" alt="Image 3">
+            <h3>Announcement</h3>
+            <p>View all the latest announcement about our facilities and more here.</p>
+            <button class="go-button">Go</button>
+        </div>
+    </div>
     <div class="button-container">
         <a href="{{ url_for('change_password') }}" class="button change-password-button">Change Login Information</a>
         <a href="{{ url_for('logout') }}" class="button logout-button">Logout</a>
-        
     </div>
 </body>
 </html>
