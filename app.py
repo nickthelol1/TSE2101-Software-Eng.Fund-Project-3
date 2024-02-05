@@ -94,6 +94,9 @@ def change_password():
 
     return render_template('change_password.html', message=message)
 
+@app.route('/selection')
+def selection():
+    return render_template('Selection.html')
 
 if __name__ == '__main__':
     with app.app_context():
