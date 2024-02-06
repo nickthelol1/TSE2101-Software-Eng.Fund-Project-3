@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Option</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        h1, h3, .go-button{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>What is your preferred payment method?</h1>
+    <div class="container">
+        <div class="box">
+            <img src="/static/payment.jpg" alt="Image 1">
+            <h3>Online banking</h3>
+            <p>We Accept Bank from:
+            <br>-Affin Bank Berhad
+            <br>-Affin Islamic Bank Berhad
+            <br>-Alliance Bank Malaysia Berhad
+            <br>-Alliance Islamic Bank Malaysia Berhad
+            <br>...
+            </p>
+            <a href="/onlinebanking" class="button go-button"> I Choose This</a>
+        </div>
+        <div class="box">
+            <img src="/static/ewallet.jpeg" alt="Image 2">
+            <h3>E-wallet</h3>
+            <p>We accept E-Wallet from:
+            <br>-TouchNGo
+            <br>-GrabPay
+            <br>-Boost
+            <br>-Lazada Wallet
+            <br>-ShopeePay
+            </p>
+            <a href="/ewalletoption" class="button go-button">I Choose This</a>
+        </div>
+    </div>
+    <button class="back-button" onclick="window.location.href='/'">Back</button>
+</body>
+
+</html>
