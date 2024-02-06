@@ -109,6 +109,10 @@ def change_password():
 def selection():
     return render_template('Selection.html')
 
+@app.route('/payment')
+def paymentoption():
+    return render_template('PaymentOption.html')
+
 @app.route('/process_selection', methods=['POST'])
 def process_selection():
     if 'username' not in session:
