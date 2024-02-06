@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Summary</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Additional styles for slot_summary.html */
+        body {
+            position: relative; /* Set the position of the body */
+            text-align: left; /* Align the text to the left */
+            font-size: 24px; /* Adjust the font size as needed */
+        }
+        h1 {
+            font-size: 36px; /* Adjust the font size of the heading */
+        }
+        table {
+            margin: 20px auto; /* Center the table */
+            border-collapse: collapse; /* Collapse table borders */
+            width: 80%; /* Set table width */
+        }
+        th, td {
+            padding: 10px; /* Add padding to cells */
+            border: 1px solid black; /* Add border to cells */
+        }
+        th {
+            background-color: black; /* Set background color for table header */
+        }
+        .go-back-button {
+            position: absolute; /* Set the button position to absolute */
+            top: 20px; /* Set the top position */
+            right: 20px; /* Set the right position */
+        }
+    </style>
+</head>
+<body>
+    <h1>Slot Summary</h1>
+    <table>
+        <tr>
+            <th>Slot Information</th>
+            <th>Information</th>
+        </tr>
+        <tr>
+            <td><strong>Username:</strong></td>
+            <td>{{ username }}</td>
+        </tr>
+        <tr>
+            <td><strong>Location:</strong></td>
+            <td>{{ location }}</td>
+        </tr>
+        <tr>
+            <td><strong>Date:</strong></td>
+            <td>{{ selected_date }}</td>
+        </tr>
+        <tr>
+            <td><strong>Time Slot:</strong></td>
+            <td>{{ selected_time }}</td>
+        </tr>
+    </table>
+
+    <!-- Add a button to redirect back to index.html -->
+    <a href="{{ url_for('index') }}" class="button go-back-button">Go Back to Menu</a>
+</body>
+</html>

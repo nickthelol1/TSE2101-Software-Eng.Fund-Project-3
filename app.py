@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 import os
+from datetime import datetime
 
-app = Flask(__name__, static_url_path='/static')  # Add this line to configure static files
-app.config['SECRET_KEY'] = 'your_secret_key'  # Change this to a secure secret key
+app = Flask(__name__, static_url_path='/static')
+app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.getcwd(), 'users.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+# Define User and Reservation models
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -15,8 +17,17 @@ class User(db.Model):
     password = db.Column(db.String(80), nullable=False)
     unit_number = db.Column(db.String(20), nullable=False)
 
+class Reservation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), nullable=False)
+    location = db.Column(db.String(20), nullable=False)
+    selected_date = db.Column(db.Date, nullable=False)
+    selected_time = db.Column(db.String(50), nullable=False)
 
-# ... (rest of your code)z
+# Create all tables within app context
+with app.app_context():
+    db.create_all()
+
 
 @app.route('/')
 def index():
@@ -98,7 +109,54 @@ def change_password():
 def selection():
     return render_template('Selection.html')
 
+@app.route('/process_selection', methods=['POST'])
+def process_selection():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        username = session['username']
+        location = request.form['activity']
+        selected_date = request.form['selected_date']
+        selected_time = request.form['selected_time']
+
+        # Convert the date string to a date object
+        selected_date = datetime.strptime(selected_date, '%Y-%m-%d').date()
+
+        # Create a new reservation
+        reservation = Reservation(username=username, location=location, selected_date=selected_date, selected_time=selected_time)
+
+        # Add the reservation to the database
+        db.session.add(reservation)
+        db.session.commit()
+
+        # Redirect to slot_summary page with reservation details
+        return redirect(url_for('slot_summary'))
+
+    return redirect(url_for('selection'))
+
+
+@app.route('/slot_summary')
+def slot_summary():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    # Get the username from the session
+    username = session['username']
+
+    # Query the database for the reservation details
+    reservation = Reservation.query.filter_by(username=username).first()
+
+    # Check if a reservation exists for the user
+    if reservation:
+        # Extract reservation details
+        location = reservation.location
+        selected_date = reservation.selected_date
+        selected_time = reservation.selected_time
+
+        return render_template('slot_summary.html', username=username, location=location, selected_date=selected_date, selected_time=selected_time)
+    else:
+        return "No reservation found for this user."
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
