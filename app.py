@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
@@ -118,49 +118,57 @@ def process_selection():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    if request.method == 'POST':
-        username = session['username']
-        location = request.form['activity']
-        selected_date = request.form['selected_date']
-        selected_time = request.form['selected_time']
+    # Safely get the 'activity' value from the form data
+    location = request.form.get('activity')
+    # Check if the activity was provided
+    if not location:
+        # If not, flash a message and redirect back to the selection page
+        # Make sure to import Flask's flash function: from flask import flash
+        flash("Please select an activity.", "error")
+        return redirect(url_for('selection'))
 
-        # Convert the date string to a date object
+    selected_date = request.form.get('selected_date')
+    selected_time = request.form.get('selected_time')
+    
+    # Ensure all fields are filled, otherwise, redirect back
+    if not all([selected_date, selected_time]):
+        flash("All fields are required.", "error")
+        return redirect(url_for('selection'))
+
+    # Convert the date string to a date object
+    try:
         selected_date = datetime.strptime(selected_date, '%Y-%m-%d').date()
+    except ValueError:
+        flash("Invalid date format.", "error")
+        return redirect(url_for('selection'))
 
-        # Create a new reservation
-        reservation = Reservation(username=username, location=location, selected_date=selected_date, selected_time=selected_time)
+    username = session['username']
+    
+    # Create a new reservation
+    reservation = Reservation(username=username, location=location, selected_date=selected_date, selected_time=selected_time)
 
-        # Add the reservation to the database
-        db.session.add(reservation)
-        db.session.commit()
+    # Add the reservation to the database
+    db.session.add(reservation)
+    db.session.commit()
 
-        # Redirect to slot_summary page with reservation details
-        return redirect(url_for('slot_summary'))
-
-    return redirect(url_for('selection'))
+    # Redirect to slot_summary page with reservation details
+    return redirect(url_for('slot_summary'))
 
 
+# Modify the slot_summary route to handle the latest or a specific reservation
 @app.route('/slot_summary')
 def slot_summary():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    # Get the username from the session
     username = session['username']
+    reservation = Reservation.query.filter_by(username=username).order_by(Reservation.id.desc()).first()
 
-    # Query the database for the reservation details
-    reservation = Reservation.query.filter_by(username=username).first()
-
-    # Check if a reservation exists for the user
     if reservation:
-        # Extract reservation details
-        location = reservation.location
-        selected_date = reservation.selected_date
-        selected_time = reservation.selected_time
-
-        return render_template('slot_summary.html', username=username, location=location, selected_date=selected_date, selected_time=selected_time)
+        return render_template('slot_summary.html', username=username, reservation=reservation)
     else:
         return "No reservation found for this user."
+
 
 if __name__ == '__main__':
     app.run(debug=True)
