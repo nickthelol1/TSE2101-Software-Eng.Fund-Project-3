@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym ABC - Selection</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <!-- Add any additional styles or links you need -->
     <style>
         body {
             display: flex;
@@ -15,25 +14,20 @@
             align-items: left;
             text-align: left;
         }
-
         h1 {
             margin-bottom: 20px;
         }
-
         img {
-            width: 500px; /* Adjust the width as needed */
+            width: 500px;
             height: 350px;
-            margin: 10px; /* Adjust the margin as needed */
+            margin: 10px;
         }
-
         form {
             margin-top: 20px;
         }
-
         label {
             font-size: 25px; 
         }
-
         .go-button, .back-button {
             padding: 10px 20px;
             background-color: #4caf50;
@@ -43,11 +37,9 @@
             cursor: pointer;
             margin-top: 20px;
         }
-
         .go-button:hover, .back-button:hover {
             background-color: #45a049;
         }
-
         .back-button {
             width: 150px; 
         }
@@ -62,25 +54,25 @@
 
     <form action="/process_selection" method="post">
         <label>Select Location:</label>
-        <label for="gym">Gym</label>
         <input type="radio" id="gym" name="activity" value="gym">
+        <label for="gym">Gym</label>
 
-        <label for="swimming_pool">Swimming Pool</label>
         <input type="radio" id="swimming_pool" name="activity" value="swimming_pool">
+        <label for="swimming_pool">Swimming Pool</label>
 
         <br><label for="selected_date">Select Date:</label>
-        <input type="date" id="selected_date" name="selected_date">
+        <input type="date" id="selected_date" name="selected_date" required>
 
         <br><label for="selected_time">Select Time Slot:</label>
-        <select id="selected_time" name="selected_time">
+        <select id="selected_time" name="selected_time" required>
             <option value="8:00 AM - 10:00 AM">8:00 AM - 10:00 AM</option>
             <option value="1:00 PM - 3:00 PM">1:00 PM - 3:00 PM</option>
             <option value="6:00 PM - 8:00 PM">6:00 PM - 8:00 PM</option>
             <option value="9:00 PM - 11:00 PM">9:00 PM - 11:00 PM</option>
         </select>
 
-        <br><input type="submit" value="Submit">
-    </form>
+        <br><input type="submit" value="Submit" class="go-button">
+    <form action="/process_selection" method="post">
 
     <button class="back-button" onclick="window.location.href='/'">Back</button>
 
