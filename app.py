@@ -61,18 +61,22 @@ def signup():
         password = request.form['password']
         unit_number = request.form['unit_number']
 
-        # Check if the email already exists
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
-            return render_template('signup.html', message='Email already exists. Please use another email address.')
+        # Check if any user with the provided data already exists
+        existing_user = User.query.filter(
+            (User.name == name) | (User.email == email) | (User.unit_number == unit_number)
+        ).first()
 
-        # Create a new user if the email doesn't exist
+        if existing_user:
+            return render_template('signup.html', message='User with the provided information already exists. Please use different information.')
+
+        # Create a new user if the provided data doesn't exist
         new_user = User(name=name, email=email, password=password, unit_number=unit_number)
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
 
     return render_template('signup.html')
+
 
 @app.route('/logout')
 def logout():

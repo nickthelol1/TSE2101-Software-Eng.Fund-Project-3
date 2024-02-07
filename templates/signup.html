@@ -79,6 +79,9 @@
 <body>
     <h1>Welcome to Resident Facilities Management System!!!</h1>
     <h2>Sign Up</h2>
+    {% if message %}
+        <p style="color: red;">{{ message }}</p>
+        {% endif %}    
     <form method="post" action="{{ url_for('signup') }}">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
