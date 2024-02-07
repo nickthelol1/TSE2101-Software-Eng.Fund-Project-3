@@ -6,31 +6,38 @@
     <title>Slot Summary</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
-        /* Additional styles for slot_summary.html */
+        /* Your existing styles */
         body {
-            position: relative; /* Set the position of the body */
-            text-align: left; /* Align the text to the left */
-            font-size: 24px; /* Adjust the font size as needed */
+            position: relative;
+            text-align: left;
+            font-size: 24px;
         }
         h1 {
-            font-size: 36px; /* Adjust the font size of the heading */
+            font-size: 36px;
         }
         table {
-            margin: 20px auto; /* Center the table */
-            border-collapse: collapse; /* Collapse table borders */
-            width: 80%; /* Set table width */
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
         }
         th, td {
-            padding: 10px; /* Add padding to cells */
-            border: 1px solid black; /* Add border to cells */
+            padding: 10px;
+            border: 1px solid black;
         }
         th {
-            background-color: black; /* Set background color for table header */
+            background-color: black;
+            color: white; /* Make text color white to be visible on black background */
         }
         .go-back-button {
-            position: absolute; /* Set the button position to absolute */
-            top: 20px; /* Set the top position */
-            right: 20px; /* Set the right position */
+            display: block; /* Make the button a block element to center it */
+            width: fit-content; /* Adjust the width to fit its content */
+            margin: 20px auto; /* Center the button horizontally */
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none; /* Remove underline from link */
+            text-align: center;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -43,23 +50,23 @@
         </tr>
         <tr>
             <td><strong>Username:</strong></td>
-            <td>{{ username }}</td>
+            <td>{{ reservation.username }}</td>
         </tr>
         <tr>
             <td><strong>Location:</strong></td>
-            <td>{{ location }}</td>
+            <td>{{ reservation.location }}</td>
         </tr>
         <tr>
             <td><strong>Date:</strong></td>
-            <td>{{ selected_date }}</td>
+            <td>{{ reservation.selected_date.strftime('%Y-%m-%d') }}</td>
         </tr>
         <tr>
             <td><strong>Time Slot:</strong></td>
-            <td>{{ selected_time }}</td>
+            <td>{{ reservation.selected_time }}</td>
         </tr>
     </table>
 
-    <!-- Add a button to redirect back to index.html -->
-    <a href="{{ url_for('index') }}" class="button go-back-button">Go Back to Menu</a>
+    <!-- Updated button for better styling and centering -->
+    <a href="{{ url_for('index') }}" class="go-back-button">Go Back to Menu</a>
 </body>
 </html>
