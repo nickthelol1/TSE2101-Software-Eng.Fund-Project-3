@@ -3,12 +3,15 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
 from datetime import date
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.getcwd(), 'users.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+admin = Admin(app, name='User Admin', template_mode='bootstrap3')
 
 # Define User and Reservation models
 class User(db.Model):
@@ -24,6 +27,26 @@ class Reservation(db.Model):
     location = db.Column(db.String(20), nullable=False)
     selected_date = db.Column(db.Date, nullable=False)
     selected_time = db.Column(db.String(50), nullable=False)
+
+# Create a subclass of the ModelView class for the User model (admin)
+class UserView(ModelView):
+    column_list = ('name', 'email', 'password', 'unit_number')
+    column_searchable_list = ('name', 'email')
+    column_editable_list = ('password', 'unit_number')
+    form_columns = ('name', 'email', 'password', 'unit_number')
+
+# Add the view to the admin instance (admin)
+admin.add_view(UserView(User, db.session, name='Users'))
+
+# Create a subclass of the ModelView class for the Reservation model (admin)
+class ReservationView(ModelView):
+    column_list = ('username', 'location', 'selected_date', 'selected_time')
+    column_searchable_list = ('username', 'location')
+    column_filters = ('selected_date', 'selected_time')
+    form_columns = ('username', 'location', 'selected_date', 'selected_time')
+
+# Add the Reservation view to the admin instance
+admin.add_view(ReservationView(Reservation, db.session, name='Reservations'))
 
 # Create all tables within app context
 with app.app_context():
