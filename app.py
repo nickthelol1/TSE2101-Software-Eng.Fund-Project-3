@@ -21,12 +21,25 @@ class User(db.Model):
     password = db.Column(db.String(80), nullable=False)
     unit_number = db.Column(db.String(20), nullable=False)
 
+class Payment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    payment_method = db.Column(db.String(20), nullable=False)
+    payment_amount = db.Column(db.Numeric(8, 2), nullable=False)
+    payment_date = db.Column(db.Date, nullable=False)
+
 class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(20), nullable=False)
     selected_date = db.Column(db.Date, nullable=False)
     selected_time = db.Column(db.String(50), nullable=False)
+
+class Announcement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    announcement_title = db.Column(db.String(200), nullable=False)
+    announcement_date = db.Column(db.Date, nullable=False)
+    announcement_detail = db.Column(db.String(1000), nullable=False)
 
 # Create a subclass of the ModelView class for the User model (admin)
 class UserView(ModelView):
@@ -38,6 +51,16 @@ class UserView(ModelView):
 # Add the view to the admin instance (admin)
 admin.add_view(UserView(User, db.session, name='Users'))
 
+# Create a subclass of the ModelView class for the Payment model (admin)
+class PaymentView(ModelView):
+    column_list = ('name', 'payment_method', 'payment_amount', 'payment_date')
+    column_searchable_list = ('name',)
+    column_filters = ('payment_method', 'payment_date')
+    form_columns = ('name', 'payment_method', 'payment_amount', 'payment_date')
+
+# Add the Payment view to the admin instance
+admin.add_view(PaymentView(Payment, db.session, name='Payments'))
+
 # Create a subclass of the ModelView class for the Reservation model (admin)
 class ReservationView(ModelView):
     column_list = ('username', 'location', 'selected_date', 'selected_time')
@@ -47,6 +70,16 @@ class ReservationView(ModelView):
 
 # Add the Reservation view to the admin instance
 admin.add_view(ReservationView(Reservation, db.session, name='Reservations'))
+
+# Create a subclass of the ModelView class for the Announcement model (admin)
+class AnnouncementView(ModelView):
+    column_list = ('announcement_title', 'announcement_date', 'announcement_detail')
+    column_searchable_list = ('announcement_title', 'announcement_detail')
+    column_filters = ('announcement_date',)
+    form_columns = ('announcement_title', 'announcement_date', 'announcement_detail')
+
+# Add the Announcement view to the admin instance
+admin.add_view(AnnouncementView(Announcement, db.session, name='Announcements'))
 
 # Create all tables within app context
 with app.app_context():
