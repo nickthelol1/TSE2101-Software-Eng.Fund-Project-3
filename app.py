@@ -181,6 +181,37 @@ def ewalletoption():
 def onlinebanking():
     return render_template('OnlineBanking.html')
 
+@app.route('/submit', methods=['POST'])
+def submit():
+    card_number = request.form['card_number'].replace(" ", "")
+    cvc = request.form['cvc']
+    expiration_month = request.form['expiration_month']
+    expiration_year = request.form['expiration_year']
+
+    errors = []
+
+    if len(card_number) != 16 or not card_number.isdigit():
+        errors.append("Please enter a valid 16-digit card number.")
+
+    if len(cvc) != 3 or not cvc.isdigit():
+        errors.append("Please enter a valid 3-digit CVC.")
+
+    current_year = int(str(date.today().year)[-2:])
+    if len(expiration_year) != 2 or int(expiration_year) <= current_year:
+        errors.append("Please enter a valid expiration year (YY) that is greater than the current year.")
+
+    if len(expiration_month) != 2 or not expiration_month.isdigit() or not (1 <= int(expiration_month) <= 12):
+        errors.append("Please enter a valid 2-digit month (MM) between 01 and 12.")
+ 
+    if errors:
+        return render_template('OnlineBanking.html', errors=errors)
+    else:
+        return render_template(('PaymentSuccessful.html'))
+    
+@app.route('/success')
+def success():
+    return render_template('PaymentSuccessful.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
