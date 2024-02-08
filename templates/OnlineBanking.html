@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Banking</title>
+    <style>
+        .box {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .back-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #4caf50;
+        }
+
+        .pay-button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .pay-button:hover {
+            background-color: blue;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Submit Payment (Onling Banking)</h1>
+    <form method="post" action="/submit">
+        <div>
+            <label for="card-number">Card Number:</label>
+            <input type="text" id="card-number" name="card_number" placeholder="#### #### #### ####">
+        </div>
+        <div>
+            <label for="expiration-date">Expiration Date:</label>
+            <input type="text" id="expiration-month" name="expiration_month" placeholder="MM" style="width: 50px;">
+            <span>/</span>
+            <input type="text" id="expiration-year" name="expiration_year" placeholder="YY" style="width: 50px;">
+        </div>
+        <div>
+            <label for="cvc">CVC:</label>
+            <input type="tel" id="cvc" name="cvc" placeholder="CVC">
+        </div>
+        <div>
+            <label for="full-name">Full Name:</label>
+            <input type="text" id="full-name" name="full_name" placeholder="">
+        </div>
+        <button class="pay-button" onclick="window.location.href='/success'">Pay</button>
+    </form>
+    <button class="back-button" onclick="window.location.href='/'">Back</button>
+    {% if errors %}
+    <div>
+        <h3>Errors:</h3>
+        <ul>
+            {% for error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</body>
+
+</html>
