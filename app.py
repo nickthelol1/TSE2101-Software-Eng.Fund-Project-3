@@ -236,6 +236,9 @@ def submit():
 def success():
     return render_template('PaymentSuccessful.html')
 
+@app.route('/outstandingfees')
+def outstandingfees():
+    return render_template('OutstandingFees.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
