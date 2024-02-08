@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-WALLET PAYMENT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        h1,
+        h3 {
+            text-align: center;
+        }
+
+        .box {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .back-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #4caf50;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>What is your preferred E-Wallet payment method?</h1>
+    <div class="container">
+
+        <div class="box" style="background-image: url('/static/tngqr.png');">
+        </div>
+        <div class="box" style="background-image: url('/static/grabqr.png');">
+            <h3>GrabPay</h3>
+        </div>
+        <div class="box" style="background-image: url('/static/boostqr.png');">
+            <h3>Boost</h3>
+        </div>
+        <div class="box" style="background-image: url('/static/shopeeqr.png');">
+        </div>
+    </div>
+    <button class="back-button" onclick="window.location.href='/';">Back</button>
+</body>
+
+</html>
