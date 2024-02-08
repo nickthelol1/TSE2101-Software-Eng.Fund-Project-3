@@ -173,6 +173,14 @@ def slot_summary():
     else:
         return "No reservation found for this user."
 
+@app.route('/ewalletoption')
+def ewalletoption():
+    return render_template('EWalletOption.html')
+
+@app.route('/onlinebanking')
+def onlinebanking():
+    return render_template('OnlineBanking.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
