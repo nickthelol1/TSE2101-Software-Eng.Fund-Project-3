@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcement</title>
+    <!-- Include your stylesheet here -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="announcement-header">
+        <h1>Announcement</h1>
+    <!-- Announcements section -->
+    <div class="announcements">
+        <!-- Loop through announcements and display them -->
+        {% for announcement in announcements %}
+            <div class="announcement-item">
+                <h2>{{ announcement.title }}</h2>
+                <p>{{ announcement.content }}</p>
+                <p>Posted by: {{ announcement.author }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Back button -->
+    <button class="back-button" onclick="window.location.href='/'">Back</button>
+
+</body>
+</html>
