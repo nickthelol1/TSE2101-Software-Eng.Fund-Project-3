@@ -271,7 +271,15 @@ def success():
 
 @app.route('/outstandingfees')
 def outstandingfees():
-    return render_template('OutstandingFees.html')
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    username = session['username']
+    
+    # Query outstanding payments for the current user
+    outstanding_payments = Payment.query.filter_by(name=username).all()
+
+    return render_template('OutstandingFees.html', outstanding_payments=outstanding_payments)
 
 @app.route('/announcements')
 def announcements():
