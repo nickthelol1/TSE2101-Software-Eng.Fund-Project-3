@@ -273,5 +273,19 @@ def success():
 def outstandingfees():
     return render_template('OutstandingFees.html')
 
+@app.route('/announcements')
+def announcements():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    # Fetch announcements from the database (this is a placeholder, you'll need to implement the actual retrieval logic)
+    announcements = [
+        {'title': 'Gym Update', 'content': 'The gym will be closed tomorrow.', 'author': 'Admin'},
+        {'title': 'Pool Party', 'content': 'Join us for a pool party this Saturday!', 'author': 'Admin'}
+        
+    ]
+
+    return render_template('announcements.html', announcements=announcements)
+
 if __name__ == '__main__':
     app.run(debug=True)
