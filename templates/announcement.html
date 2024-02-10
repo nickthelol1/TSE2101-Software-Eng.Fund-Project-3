@@ -4,15 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Announcement</title>
-    <!-- Include your stylesheet here -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .announcement-header {
+            background-color: #004466; 
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .announcement-categories {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .announcement-categories button {
+            background-color: #0077CC; 
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .announcements {
+            margin: 20px;
+            /* Additional styling */
+        }
+        .back-button {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            display: block;
+            width: 100px;
+            margin: 20px auto;
+        }
+    </style>
 </head>
 <body>
     <div class="announcement-header">
         <h1>Announcement</h1>
-    <!-- Announcements section -->
-    <div class="announcements">
-        <!-- Loop through announcements and display them -->
+        <div class="announcement-categories">
+            <button>Fitness Class Schedules</button>
+            <button>Community Events</button>
+            <button>Maintenance Alerts</button>
+            <button>Health and Safety Tips</button>
+        </div>
+    </div>
+    <div class="announcements">>
         {% for announcement in announcements %}
             <div class="announcement-item">
                 <h2>{{ announcement.title }}</h2>
@@ -21,9 +60,7 @@
             </div>
         {% endfor %}
     </div>
-
     <!-- Back button -->
     <button class="back-button" onclick="window.location.href='/'">Back</button>
-
 </body>
 </html>
