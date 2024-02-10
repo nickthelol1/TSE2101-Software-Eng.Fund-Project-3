@@ -290,7 +290,6 @@ def announcements():
     announcements = Announcement.query.order_by(Announcement.announcement_date.desc()).all()
 
     # Convert the announcements from SQLAlchemy objects to a list of dictionaries
-    # This is because you might be using the attributes directly in your template
     announcements_list = [{
         'title': announcement.announcement_title,
         'content': announcement.announcement_detail,
@@ -298,7 +297,7 @@ def announcements():
         'author': 'Admin' 
     } for announcement in announcements]
 
-    return render_template('announcements.html', announcements=announcements)
+    return render_template('announcements.html', announcements=announcements_list)
 
 
 if __name__ == '__main__':
