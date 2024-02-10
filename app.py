@@ -286,14 +286,20 @@ def announcements():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    # Fetch announcements from the database (this is a placeholder, you'll need to implement the actual retrieval logic)
-    announcements = [
-        {'title': 'Gym Update', 'content': 'The gym will be closed tomorrow.', 'author': 'Admin'},
-        {'title': 'Pool Party', 'content': 'Join us for a pool party this Saturday!', 'author': 'Admin'}
-        
-    ]
+    # Fetch announcements from the database using SQLAlchemy
+    announcements = Announcement.query.order_by(Announcement.announcement_date.desc()).all()
+
+    # Convert the announcements from SQLAlchemy objects to a list of dictionaries
+    # This is because you might be using the attributes directly in your template
+    announcements_list = [{
+        'title': announcement.announcement_title,
+        'content': announcement.announcement_detail,
+        'date': announcement.announcement_date.strftime('%Y-%m-%d'),  # Format the date as a string
+        'author': 'Admin' 
+    } for announcement in announcements]
 
     return render_template('announcements.html', announcements=announcements)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
