@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.getcwd(), 'users.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-admin = Admin(app, name='User Admin', template_mode='bootstrap3')
+admin = Admin(app, name='Admin', template_mode='bootstrap3')
 
 # Define User and Reservation models
 class User(db.Model):
